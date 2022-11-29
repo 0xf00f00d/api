@@ -1,0 +1,12 @@
+actions:
+  - name: actionName
+    definition:
+      kind: asynchronous
+      handler: http://localhost:3000
+custom_types:
+  enums: []
+  input_objects:
+    - name: SampleInput
+  objects:
+    - name: SampleOutput
+  scalars: []
