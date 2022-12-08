@@ -1,0 +1,63 @@
+table:
+  name: applications
+  schema: public
+object_relationships:
+  - name: applicationStatus
+    using:
+      manual_configuration:
+        column_mapping:
+          status: status
+        insertion_order: null
+        remote_table:
+          name: application_status
+          schema: public
+  - name: job
+    using:
+      foreign_key_constraint_on: job_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+array_relationships:
+  - name: applicants
+    using:
+      manual_configuration:
+        column_mapping:
+          user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: auth
+insert_permissions:
+  - role: seeker
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - job_id
+select_permissions:
+  - role: seeker
+    permission:
+      columns:
+        - is_active
+        - status
+        - created_at
+        - deleted_at
+        - job_id
+        - user_id
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: employer
+    permission:
+      columns:
+        - is_active
+      filter:
+        job:
+          employer_id:
+            _eq: X-Hasura-User-Id
+      check:
+        job:
+          employer_id:
+            _eq: X-Hasura-User-Id

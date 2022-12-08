@@ -1,0 +1,4 @@
+-- Could not auto-generate a down migration
+-- Please write an appropriate down migration for the SQL below:
+-- ALTER TABLE public.profiles ADD CONSTRAINT "profiles_userId_unique" UNIQUE ("userId");
+-- ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS "profiles_userId_fkey";

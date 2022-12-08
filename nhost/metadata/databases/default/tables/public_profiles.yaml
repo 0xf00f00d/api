@@ -1,0 +1,78 @@
+table:
+  name: profiles
+  schema: public
+object_relationships:
+  - name: size
+    using:
+      manual_configuration:
+        column_mapping:
+          company_size: size
+        insertion_order: null
+        remote_table:
+          name: company_sizes
+          schema: public
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: auth
+insert_permissions:
+  - role: me
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - email
+        - name
+  - role: user
+    permission:
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - email
+        - name
+select_permissions:
+  - role: me
+    permission:
+      columns:
+        - email
+        - name
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+        - email
+        - name
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: me
+    permission:
+      columns:
+        - email
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id
+  - role: user
+    permission:
+      columns:
+        - email
+        - name
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check:
+        user_id:
+          _eq: X-Hasura-User-Id

@@ -1,0 +1,1 @@
+CREATE TABLE public.profiles (id uuid NOT NULL, "userId" uuid NOT NULL, name text NOT NULL, address text, PRIMARY KEY (id), FOREIGN KEY ("userId") REFERENCES public.users (id) ON UPDATE CASCADE ON DELETE CASCADE);
