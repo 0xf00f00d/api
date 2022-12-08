@@ -1,12 +1,92 @@
+type Query {
+  allJobs(
+    filter: JobsQueryInput
+  ): [Job]
+}
+
 type Mutation {
-  actionName(
-    arg1: SampleInput!
-  ): SampleOutput
+  applyJob(
+    args: JobUserInput!
+  ): Job
+}
+
+type Query {
+  jobApplicants(
+    filter: JobUserInput
+  ): [Profile]
+}
+
+type Query {
+  myApplications(
+    filter: MyJobsQueryInput
+  ): [Job]
+}
+
+type Query {
+  myJobs(
+    filter: MyJobsQueryInput
+  ): [Job]
+}
+
+type Query {
+  myProfile(
+    user_id: Int!
+  ): Profile
+}
+
+type Mutation {
+  postJob(
+    arg: JobUserInput!
+  ): Job
+}
+
+type Mutation {
+  updateMyProfile(
+    args: JobUserInput!
+  ): Profile
+}
+
+type Mutation {
+  uploadResume(
+    args: JobUserInput!
+  ): Profile
+}
+
+input JobsQueryInput {
+  title: String
+  is_active: Boolean
+}
+
+input MyJobsQueryInput {
+  user_id: String!
+}
+
+input JobUserInput {
+  job_id: String!
+  user_id: String!
+}
+
+input JobApplicantsInput {
+  job_id: String!
+  user_id: String!
 }
 
 input SampleInput {
   username: String!
   password: String!
+}
+
+type Job {
+  title: String!
+  description: String
+  type: String
+  location: String
+}
+
+type Profile {
+  name: String!
+  email: String!
+  address: String
 }
 
 type SampleOutput {

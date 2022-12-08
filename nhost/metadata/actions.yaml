@@ -1,12 +1,78 @@
 actions:
-  - name: actionName
+  - name: allJobs
+    definition:
+      kind: ""
+      handler: http://192.168.16.1:3000/api/allJobs
+    permissions:
+      - role: user
+      - role: anonymous
+      - role: employer
+      - role: seeker
+    comment: List All Jobs
+  - name: applyJob
+    definition:
+      kind: asynchronous
+      handler: http://192.168.16.1:3000/api/applyJob
+    permissions:
+      - role: seeker
+    comment: Apply for a job
+  - name: jobApplicants
+    definition:
+      kind: ""
+      handler: http://192.168.16.1:3000/api/jobApplicants
+    permissions:
+      - role: employer
+    comment: List all job applicants
+  - name: myApplications
+    definition:
+      kind: ""
+      handler: http://192.168.16.1:3000/api/myApplications
+    permissions:
+      - role: seeker
+    comment: List user's job applications
+  - name: myJobs
+    definition:
+      kind: ""
+      handler: http://192.168.16.1:3000/api/myJobs
+    permissions:
+      - role: employer
+    comment: List user's job posts
+  - name: myProfile
+    definition:
+      kind: ""
+      handler: http://192.168.16.1:3000/api/myProfile
+    comment: Get user's profile
+  - name: postJob
+    definition:
+      kind: asynchronous
+      handler: http://192.168.16.1:3000/api/postJob
+    permissions:
+      - role: employer
+    comment: Create a Job Post
+  - name: updateMyProfile
     definition:
       kind: asynchronous
       handler: http://localhost:3000
+    permissions:
+      - role: user
+    comment: Update user's profile
+  - name: uploadResume
+    definition:
+      kind: asynchronous
+      handler: http://localhost:3000
+    permissions:
+      - role: seeker
+    comment: Upload resume
 custom_types:
   enums: []
   input_objects:
+    - name: JobsQueryInput
+    - name: MyJobsQueryInput
+    - name: JobUserInput
+    - name: JobApplicantsInput
     - name: SampleInput
   objects:
+    - name: Job
+    - name: Profile
     - name: SampleOutput
   scalars: []

@@ -27,7 +27,7 @@ auth:
     enabled: false
     passwordless:
       enabled: false
-    signin_email_verified_required: true
+    signin_email_verified_required: false
     template_fetch_url: ""
   gravatar:
     default: ""
@@ -57,9 +57,9 @@ auth:
       enabled: false
       scope: email,photos,displayName
     github:
-      client_id: ""
-      client_secret: ""
-      enabled: false
+      client_id: "f7ac329a3e5a7f79ef03"
+      client_secret: "b6866ae1f12a3fc39319ffdd5eee18d47da93246"
+      enabled: true
       scope: user:email
       token_url: ""
       user_profile_url: ""
@@ -70,9 +70,9 @@ auth:
       enabled: false
       scope: read_user
     google:
-      client_id: ""
-      client_secret: ""
-      enabled: false
+      client_id: "240923543287-mnl1sio1v79kk061rdf99jaqc3ralu2k.apps.googleusercontent.com"
+      client_secret: "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"
+      enabled: true
       scope: email,profile
     linkedin:
       client_id: ""

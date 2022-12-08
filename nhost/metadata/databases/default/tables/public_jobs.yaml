@@ -1,3 +1,114 @@
 table:
   name: jobs
   schema: public
+object_relationships:
+  - name: employer
+    using:
+      manual_configuration:
+        column_mapping:
+          employer_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: auth
+  - name: jobType
+    using:
+      manual_configuration:
+        column_mapping:
+          type: type_name
+        insertion_order: null
+        remote_table:
+          name: job_types
+          schema: public
+array_relationships:
+  - name: applications
+    using:
+      foreign_key_constraint_on:
+        column: job_id
+        table:
+          name: applications
+          schema: public
+insert_permissions:
+  - role: employer
+    permission:
+      check:
+        employer_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - description
+        - employer_id
+        - location
+        - title
+        - type
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - created_at
+        - description
+        - location
+        - title
+        - type
+      filter:
+        is_active:
+          _eq: true
+  - role: employer
+    permission:
+      columns:
+        - created_at
+        - deleted_at
+        - description
+        - employer_id
+        - is_active
+        - location
+        - title
+        - type
+        - updated_at
+      filter:
+        employer_id:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+  - role: seeker
+    permission:
+      columns:
+        - created_at
+        - description
+        - is_active
+        - location
+        - title
+        - type
+      filter:
+        is_active:
+          _eq: true
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - description
+        - location
+        - title
+        - type
+        - updated_at
+      filter:
+        is_active:
+          _eq: true
+update_permissions:
+  - role: employer
+    permission:
+      columns:
+        - description
+        - location
+        - title
+        - type
+      filter:
+        employer_id:
+          _eq: X-Hasura-User-Id
+      check:
+        employer_id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: employer
+    permission:
+      filter:
+        employer_id:
+          _eq: X-Hasura-User-Id
