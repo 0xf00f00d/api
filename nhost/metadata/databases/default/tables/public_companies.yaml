@@ -1,0 +1,25 @@
+table:
+  name: companies
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: employer_id
+array_relationships:
+  - name: jobs
+    using:
+      foreign_key_constraint_on:
+        column: company_id
+        table:
+          name: jobs
+          schema: public
+select_permissions:
+  - role: employer
+    permission:
+      columns:
+        - address
+        - email
+        - name
+        - telephone
+        - id
+      filter: {}

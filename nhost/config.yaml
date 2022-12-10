@@ -20,11 +20,11 @@ auth:
       blocked_emails: ""
     url:
       allowed_redirect_urls: ""
-  anonymous_users_enabled: false
-  client_url: http://localhost:3000
+  anonymous_users_enabled: true
+  client_url: http://baton.jobs:24678
   disable_new_users: false
   email:
-    enabled: false
+    enabled: true
     passwordless:
       enabled: false
     signin_email_verified_required: false

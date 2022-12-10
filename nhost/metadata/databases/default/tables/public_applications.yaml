@@ -55,9 +55,9 @@ update_permissions:
         - is_active
       filter:
         job:
-          employer_id:
+          company_id:
             _eq: X-Hasura-User-Id
       check:
         job:
-          employer_id:
+          company_id:
             _eq: X-Hasura-User-Id

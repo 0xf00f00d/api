@@ -2,7 +2,7 @@ actions:
   - name: allJobs
     definition:
       kind: ""
-      handler: http://192.168.16.1:3000/api/allJobs
+      handler: http://192.168.1.102:3000/api/allJobs
     permissions:
       - role: user
       - role: anonymous
@@ -41,6 +41,9 @@ actions:
     definition:
       kind: ""
       handler: http://192.168.16.1:3000/api/myProfile
+    permissions:
+      - role: seeker
+      - role: employer
     comment: Get user's profile
   - name: postJob
     definition:
@@ -49,12 +52,28 @@ actions:
     permissions:
       - role: employer
     comment: Create a Job Post
+  - name: registerAsEmployer
+    definition:
+      kind: synchronous
+      handler: http://localhost:3000
+    permissions:
+      - role: me
+      - role: user
+  - name: registerAsSeeker
+    definition:
+      kind: synchronous
+      handler: http://localhost:3000
+    permissions:
+      - role: me
+      - role: user
+    comment: Register as job seeker
   - name: updateMyProfile
     definition:
       kind: asynchronous
       handler: http://localhost:3000
     permissions:
-      - role: user
+      - role: employer
+      - role: seeker
     comment: Update user's profile
   - name: uploadResume
     definition:
@@ -75,4 +94,6 @@ custom_types:
     - name: Job
     - name: Profile
     - name: SampleOutput
+    - name: Company
+    - name: User
   scalars: []
