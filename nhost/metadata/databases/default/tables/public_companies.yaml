@@ -2,7 +2,16 @@ table:
   name: companies
   schema: public
 object_relationships:
-  - name: profile
+  - name: companySize
+    using:
+      manual_configuration:
+        column_mapping:
+          size: size
+        insertion_order: null
+        remote_table:
+          name: company_sizes
+          schema: public
+  - name: employer
     using:
       foreign_key_constraint_on: employer_id
 array_relationships:
@@ -13,7 +22,79 @@ array_relationships:
         table:
           name: jobs
           schema: public
+insert_permissions:
+  - role: employer
+    permission:
+      check:
+        employer_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - address
+        - email
+        - employer_id
+        - name
+        - telephone
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - address
+        - email
+        - employer_id
+        - logoUrl
+        - name
+        - size
+        - telephone
 select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - address
+        - created_at
+        - email
+        - id
+        - logoUrl
+        - name
+        - size
+        - telephone
+      filter: {}
+  - role: employer
+    permission:
+      columns:
+        - address
+        - created_at
+        - email
+        - employer_id
+        - id
+        - name
+        - size
+        - telephone
+      filter: {}
+  - role: seeker
+    permission:
+      columns:
+        - address
+        - created_at
+        - email
+        - id
+        - logoUrl
+        - name
+        - size
+        - telephone
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - address
+        - created_at
+        - email
+        - id
+        - logoUrl
+        - name
+        - size
+        - telephone
+      filter: {}
+update_permissions:
   - role: employer
     permission:
       columns:
@@ -21,5 +102,15 @@ select_permissions:
         - email
         - name
         - telephone
-        - id
-      filter: {}
+      filter:
+        employer_id:
+          _eq: X-Hasura-User-Id
+      check:
+        employer_id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: employer
+    permission:
+      filter:
+        employer_id:
+          _eq: X-Hasura-User-Id

@@ -1,3 +1,10 @@
+type Mutation {
+  addUserRole(
+    user_id: String!
+    role: String!
+  ): Profile
+}
+
 type Query {
   allJobs(
     filter: JobsQueryInput
@@ -8,6 +15,18 @@ type Mutation {
   applyJob(
     args: JobUserInput!
   ): Job
+}
+
+type Mutation {
+  createMyProfile(
+    user_id: String!
+  ): Profile
+}
+
+type Query {
+  hasApplication(
+    arg: JobUserInput!
+  ): ApplicationCheckResult
 }
 
 type Query {
@@ -23,8 +42,14 @@ type Query {
 }
 
 type Query {
+  myCompany(
+    employer_id: uuid!
+  ): Company
+}
+
+type Query {
   myJobs(
-    filter: MyJobsQueryInput
+    company_id: uuid!
   ): [Job]
 }
 
@@ -36,16 +61,27 @@ type Query {
 
 type Mutation {
   postJob(
-    arg: JobUserInput!
+    arg: PostJobInput!
   ): Job
 }
 
 type Mutation {
-  registerAsEmployer: Profile!
+  registerAsEmployer(
+    arg: EmployerProfileInput!
+  ): Profile!
 }
 
 type Mutation {
-  registerAsSeeker: Profile!
+  registerAsSeeker(
+    arg: SeekerProfileInput!
+  ): Profile!
+}
+
+type Mutation {
+  setDefaultRole(
+    user_id: String!
+    role: String!
+  ): Profile
 }
 
 type Mutation {
@@ -66,17 +102,48 @@ input JobsQueryInput {
 }
 
 input MyJobsQueryInput {
-  user_id: String!
+  user_id: uuid!
 }
 
 input JobUserInput {
-  job_id: String!
-  user_id: String!
+  job_id: uuid!
+  user_id: uuid!
 }
 
 input JobApplicantsInput {
-  job_id: String!
-  user_id: String!
+  job_id: uuid!
+  user_id: uuid!
+}
+
+input UserInput {
+  email: String
+  display_name: String
+}
+
+input JobInput {
+  title: String!
+  description: String
+  type: String
+  location: String
+  is_active: Boolean
+  company_id: uuid!
+}
+
+input PostJobInput {
+  user_id: uuid!
+  job: JobInput!
+}
+
+input SeekerProfileInput {
+  user_id: uuid!
+  name: String
+  email: String
+}
+
+input EmployerProfileInput {
+  employer_id: uuid!
+  name: String
+  email: String
 }
 
 input SampleInput {
@@ -85,11 +152,13 @@ input SampleInput {
 }
 
 type Job {
-  id: String!
-  title: String!
+  id: uuid
+  title: String
   description: String
   type: String
   location: String
+  created_at: String
+  company_id: uuid
   company: Company
 }
 
@@ -100,14 +169,13 @@ type Profile {
   user: User
 }
 
-type SampleOutput {
-  accessToken: String!
-}
-
 type Company {
-  id: String!
-  name: String!
+  id: uuid
+  name: String
   email: String
+  address: String
+  telephone: String
+  created_at: String
 }
 
 type User {
@@ -116,5 +184,13 @@ type User {
   email: String
   email_verified: Boolean
   default_role: String
+}
+
+type SampleOutput {
+  accessToken: String!
+}
+
+type ApplicationCheckResult {
+  found: Boolean
 }
 

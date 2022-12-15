@@ -2,15 +2,6 @@ table:
   name: profiles
   schema: public
 object_relationships:
-  - name: size
-    using:
-      manual_configuration:
-        column_mapping:
-          company_size: size
-        insertion_order: null
-        remote_table:
-          name: company_sizes
-          schema: public
   - name: user
     using:
       manual_configuration:
@@ -20,6 +11,16 @@ object_relationships:
         remote_table:
           name: users
           schema: auth
+array_relationships:
+  - name: employments
+    using:
+      manual_configuration:
+        column_mapping:
+          id: profile_id
+        insertion_order: null
+        remote_table:
+          name: employments
+          schema: public
 insert_permissions:
   - role: me
     permission:
@@ -35,14 +36,36 @@ insert_permissions:
         user_id:
           _eq: X-Hasura-User-Id
       columns:
+        - address
         - email
+        - image
         - name
+        - telephone
+        - type
+        - user_id
 select_permissions:
   - role: me
     permission:
       columns:
         - email
         - name
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+  - role: seeker
+    permission:
+      columns:
+        - address
+        - created_at
+        - email
+        - id
+        - image
+        - name
+        - profile_details
+        - telephone
+        - type
+        - updated_at
+        - user_id
       filter:
         user_id:
           _eq: X-Hasura-User-Id
@@ -65,6 +88,18 @@ update_permissions:
       check:
         user_id:
           _eq: X-Hasura-User-Id
+  - role: seeker
+    permission:
+      columns:
+        - address
+        - email
+        - image
+        - name
+        - telephone
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      check: null
   - role: user
     permission:
       columns:
@@ -76,3 +111,21 @@ update_permissions:
       check:
         user_id:
           _eq: X-Hasura-User-Id
+event_triggers:
+  - name: postSignupEvent
+    definition:
+      enable_manual: false
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: http://192.168.1.102:3000/api/post-signup
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: false
+      clear_older_than: 168
+      paused: true
+      schedule: 0 0 * * *
+      timeout: 60

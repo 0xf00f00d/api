@@ -1,8 +1,12 @@
 actions:
+  - name: addUserRole
+    definition:
+      kind: synchronous
+      handler: http://localhost:3000
   - name: allJobs
     definition:
       kind: ""
-      handler: http://192.168.1.102:3000/api/allJobs
+      handler: http://192.168.1.102:3000/api/jobs/all
     permissions:
       - role: user
       - role: anonymous
@@ -11,11 +15,21 @@ actions:
     comment: List All Jobs
   - name: applyJob
     definition:
-      kind: asynchronous
-      handler: http://192.168.16.1:3000/api/applyJob
+      kind: synchronous
+      handler: http://192.168.16.1:3000/api/jobs/apply
     permissions:
       - role: seeker
     comment: Apply for a job
+  - name: createMyProfile
+    definition:
+      kind: asynchronous
+      handler: http://localhost:3000
+  - name: hasApplication
+    definition:
+      kind: ""
+      handler: http://192.168.1.102:3000/api/applications/check
+    permissions:
+      - role: seeker
   - name: jobApplicants
     definition:
       kind: ""
@@ -26,14 +40,20 @@ actions:
   - name: myApplications
     definition:
       kind: ""
-      handler: http://192.168.16.1:3000/api/myApplications
+      handler: http://192.168.16.1:3000/api/applications/my
     permissions:
       - role: seeker
     comment: List user's job applications
+  - name: myCompany
+    definition:
+      kind: ""
+      handler: http://192.168.1.102:3000/api/companies/my
+    permissions:
+      - role: employer
   - name: myJobs
     definition:
       kind: ""
-      handler: http://192.168.16.1:3000/api/myJobs
+      handler: http://192.168.1.102:3000/api/jobs/my-jobs
     permissions:
       - role: employer
     comment: List user's job posts
@@ -47,26 +67,30 @@ actions:
     comment: Get user's profile
   - name: postJob
     definition:
-      kind: asynchronous
-      handler: http://192.168.16.1:3000/api/postJob
+      kind: synchronous
+      handler: http://192.168.1.102:3000/api/jobs/post
     permissions:
       - role: employer
     comment: Create a Job Post
   - name: registerAsEmployer
     definition:
       kind: synchronous
-      handler: http://localhost:3000
+      handler: http://192.168.1.102:3000/api/profiles/employer
     permissions:
       - role: me
       - role: user
   - name: registerAsSeeker
     definition:
       kind: synchronous
-      handler: http://localhost:3000
+      handler: http://192.168.1.102:3000/api/profiles/seeker
     permissions:
       - role: me
       - role: user
     comment: Register as job seeker
+  - name: setDefaultRole
+    definition:
+      kind: synchronous
+      handler: http://localhost:3000
   - name: updateMyProfile
     definition:
       kind: asynchronous
@@ -89,11 +113,17 @@ custom_types:
     - name: MyJobsQueryInput
     - name: JobUserInput
     - name: JobApplicantsInput
+    - name: UserInput
+    - name: JobInput
+    - name: PostJobInput
+    - name: SeekerProfileInput
+    - name: EmployerProfileInput
     - name: SampleInput
   objects:
     - name: Job
     - name: Profile
-    - name: SampleOutput
     - name: Company
     - name: User
+    - name: SampleOutput
+    - name: ApplicationCheckResult
   scalars: []
