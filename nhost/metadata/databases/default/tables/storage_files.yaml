@@ -62,6 +62,19 @@ insert_permissions:
         - name
         - size
         - uploaded_by_user_id
+  - role: seeker
+    permission:
+      check:
+        uploaded_by_user_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - bucket_id
+        - etag
+        - is_uploaded
+        - mime_type
+        - name
+        - size
+        - uploaded_by_user_id
 select_permissions:
   - role: me
     permission:

@@ -16,7 +16,7 @@ actions:
   - name: applyJob
     definition:
       kind: synchronous
-      handler: http://192.168.16.1:3000/api/jobs/apply
+      handler: http://192.168.1.102:3000/api/jobs/apply
     permissions:
       - role: seeker
     comment: Apply for a job
@@ -33,14 +33,14 @@ actions:
   - name: jobApplicants
     definition:
       kind: ""
-      handler: http://192.168.16.1:3000/api/jobApplicants
+      handler: http://192.168.1.102:3000/api/jobs/applicants
     permissions:
       - role: employer
     comment: List all job applicants
   - name: myApplications
     definition:
       kind: ""
-      handler: http://192.168.16.1:3000/api/applications/my
+      handler: http://192.168.1.102:3000/api/applications/my
     permissions:
       - role: seeker
     comment: List user's job applications
@@ -60,11 +60,20 @@ actions:
   - name: myProfile
     definition:
       kind: ""
-      handler: http://192.168.16.1:3000/api/myProfile
+      handler: http://192.168.1.102:3000/api/profiles/me
     permissions:
       - role: seeker
       - role: employer
     comment: Get user's profile
+  - name: oneJob
+    definition:
+      kind: ""
+      handler: http://192.168.1.102:3000/api/jobs/one
+    permissions:
+      - role: anonymous
+      - role: employer
+      - role: seeker
+      - role: user
   - name: postJob
     definition:
       kind: synchronous
@@ -93,16 +102,16 @@ actions:
       handler: http://localhost:3000
   - name: updateMyProfile
     definition:
-      kind: asynchronous
-      handler: http://localhost:3000
+      kind: synchronous
+      handler: http://192.168.1.102:3000/api/profiles/update
     permissions:
       - role: employer
       - role: seeker
     comment: Update user's profile
   - name: uploadResume
     definition:
-      kind: asynchronous
-      handler: http://localhost:3000
+      kind: synchronous
+      handler: http://192.168.1.102:3000
     permissions:
       - role: seeker
     comment: Upload resume
@@ -119,8 +128,10 @@ custom_types:
     - name: SeekerProfileInput
     - name: EmployerProfileInput
     - name: SampleInput
+    - name: ProfileUpdateInput
   objects:
     - name: Job
+    - name: JobType
     - name: Profile
     - name: Company
     - name: User

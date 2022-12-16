@@ -31,7 +31,7 @@ type Query {
 
 type Query {
   jobApplicants(
-    filter: JobUserInput
+    job_id: uuid!
   ): [Profile]
 }
 
@@ -55,8 +55,14 @@ type Query {
 
 type Query {
   myProfile(
-    user_id: Int!
+    user_id: uuid!
   ): Profile
+}
+
+type Query {
+  oneJob(
+    id: uuid!
+  ): Job
 }
 
 type Mutation {
@@ -86,7 +92,8 @@ type Mutation {
 
 type Mutation {
   updateMyProfile(
-    args: JobUserInput!
+    job_id: uuid!
+    updates: ProfileUpdateInput!
   ): Profile
 }
 
@@ -151,6 +158,12 @@ input SampleInput {
   password: String!
 }
 
+input ProfileUpdateInput {
+  name: String
+  email: String
+  address: String
+}
+
 type Job {
   id: uuid
   title: String
@@ -160,6 +173,13 @@ type Job {
   created_at: String
   company_id: uuid
   company: Company
+  jobType: JobType
+  is_active: Boolean
+}
+
+type JobType {
+  type_name: String
+  type_display: String
 }
 
 type Profile {
@@ -176,6 +196,7 @@ type Company {
   address: String
   telephone: String
   created_at: String
+  logo_url: String
 }
 
 type User {

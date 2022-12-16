@@ -2,6 +2,9 @@ table:
   name: profiles
   schema: public
 object_relationships:
+  - name: resumeFile
+    using:
+      foreign_key_constraint_on: resume_file_id
   - name: user
     using:
       manual_configuration:
@@ -58,10 +61,12 @@ select_permissions:
         - address
         - created_at
         - email
+        - has_resume
         - id
         - image
         - name
         - profile_details
+        - resume_file_id
         - telephone
         - type
         - updated_at

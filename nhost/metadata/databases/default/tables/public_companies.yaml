@@ -41,7 +41,7 @@ insert_permissions:
         - address
         - email
         - employer_id
-        - logoUrl
+        - logo_url
         - name
         - size
         - telephone
@@ -53,7 +53,7 @@ select_permissions:
         - created_at
         - email
         - id
-        - logoUrl
+        - logo_url
         - name
         - size
         - telephone
@@ -77,7 +77,7 @@ select_permissions:
         - created_at
         - email
         - id
-        - logoUrl
+        - logo_url
         - name
         - size
         - telephone
@@ -89,7 +89,7 @@ select_permissions:
         - created_at
         - email
         - id
-        - logoUrl
+        - logo_url
         - name
         - size
         - telephone
